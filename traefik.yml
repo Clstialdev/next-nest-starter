@@ -1,0 +1,20 @@
+api:
+  dashboard: true
+  insecure: true
+
+log:
+  level: DEBUG
+
+entryPoints:
+  web:
+    address: ":80"
+  web-secured:
+    address: ":443"
+    # this just switches TLS on, Traefik will serve its built-in self-signed cert
+    http:
+      tls: {}
+
+providers:
+  docker:
+    exposedByDefault: false
+    network: app-network

@@ -1,0 +1,65 @@
+version: "3.8"
+
+services:
+  traefik:
+    image: traefik:v2.10
+    command:
+      - "--configFile=/etc/traefik/traefik.yml"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.dashboard.entrypoints=web-secured"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.service=api@internal"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt:/letsencrypt:ro
+      - ./traefik.yml:/etc/traefik/traefik.yml:ro
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=app-network"
+      - "traefik.http.routers.frontend.rule=Host(`frontend.localhost`)"
+      - "traefik.http.routers.frontend.entrypoints=web-secured"
+      - "traefik.http.routers.frontend.tls=true"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=app-network"
+      - "traefik.http.routers.backend.rule=Host(`backend.localhost`)"
+      - "traefik.http.routers.backend.entrypoints=web-secured"
+      - "traefik.http.routers.backend.tls=true"
+      - "traefik.http.services.backend.loadbalancer.server.port=4000"
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "4000:4000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
