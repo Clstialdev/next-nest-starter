@@ -20,6 +20,8 @@ services:
       - ./letsencrypt:/letsencrypt:ro
       - ./traefik.yml:/etc/traefik/traefik.yml:ro
       - ./dynamic:/etc/traefik/dynamic:ro
+    environment:
+      - PORT=4000
     networks:
       - app-network
 
@@ -35,13 +37,17 @@ services:
       - "traefik.http.routers.frontend.tls=true"
       - "traefik.http.services.frontend.loadbalancer.server.port=3000"
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
     ports:
       - "3000:3000"
     networks:
       - app-network
     depends_on:
       - backend
+    volumes:
+      - ./apps/frontend:/app/apps/frontend
+      - ./packages/shared-types:/app/packages/shared-types
+      - /app/node_modules
 
   backend:
     build:
@@ -56,11 +62,34 @@ services:
       - "traefik.http.services.backend.loadbalancer.server.port=4000"
     environment:
       - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/mydb
     ports:
       - "4000:4000"
+    networks:
+      - app-network
+    depends_on:
+      - postgres
+    volumes:
+      - ./apps/backend:/app/apps/backend
+      - ./packages/shared-types:/app/packages/shared-types
+      - /app/node_modules
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - app-network
 
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  postgres_data:
