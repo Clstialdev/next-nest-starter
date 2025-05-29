@@ -1,17 +1,6 @@
 OS := $(shell uname 2>/dev/null || echo Windows_NT)
 HR=━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-# Check for verbose flag
-VERBOSE := $(findstring v,$(filter -v --verbose,$(MAKECMDGOALS)))
-ifdef VERBOSE
-    DOCKER_UP_FLAGS := --build
-else
-    DOCKER_UP_FLAGS := --build -d
-endif
-
-# Remove verbose flags from MAKECMDGOALS
-MAKECMDGOALS := $(filter-out -v --verbose,$(MAKECMDGOALS))
-
 setup: init hosts-config generate-certs
 	@echo $(HR)
 	@echo 🎉 Setup complete! Run 'make help' for commands.
@@ -71,7 +60,15 @@ ifeq ($(OS),Windows_NT)
 endif
 	@echo $(HR)
 	@echo 🚀 Starting Docker containers...
-	docker-compose up $(DOCKER_UP_FLAGS)
+	docker-compose up --build
+
+upd:
+ifeq ($(OS),Windows_NT)
+	@powershell -ExecutionPolicy Bypass -Command "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; .\scripts\set-encoding.ps1"
+endif
+	@echo $(HR)
+	@echo 🚀 Starting Docker containers...
+	docker-compose up -d
 
 down:
 ifeq ($(OS),Windows_NT)
@@ -117,13 +114,33 @@ endif
 	@echo 🛠️  Next-Nest Monorepo Commands
 	@echo $(HR)
 	@echo make setup   - First-time setup
-	@echo make up      - Start containers in detached mode
-	@echo make up -v   - Start containers in verbose mode (attached)
+	@echo make up      - Start containers
+	@echo make upd     - Start containers in detached mode
 	@echo make down    - Stop containers
 	@echo make restart - Restart containers
 	@echo make dev     - Start development environment
 	@echo make build   - Build all packages and applications
 	@echo make clean   - Clean up node_modules and build artifacts
+	@echo make nest    - Run Nest commands in the backend folder
+	@echo make frontend  - Run command in the frontend folder
+	@echo make backend - Run command in the backend folder
 	@echo $(HR)
 
-.PHONY: setup init hosts-config generate-certs up down restart dev build clean help 
+nest:
+	@echo $(HR)
+	@echo 🛠️  Running Nest command in the backend folder...
+	@cd apps/backend && nest $*
+
+backend:
+	@echo $(HR)
+	@echo "🛠️  Running command in the backend folder..."
+	@cd apps/backend && $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+
+frontend:
+	@echo $(HR)
+	@echo "🛠️  Running command in the frontend folder..."
+	@cd apps/frontend && $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+
+.PHONY: setup init hosts-config generate-certs up upd down restart dev build clean help nest frontend backend
+.DEFAULT:
+	@:

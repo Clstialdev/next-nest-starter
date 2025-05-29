@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { drizzle, type NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import * as schema from './schema'; // adjust the path if needed
@@ -20,9 +18,9 @@ async function main() {
         const user = await db
           .insert(schema.users)
           .values({
-            name: faker.person.fullName() as string,
-            password: faker.internet.password() as string,
-            email: faker.internet.email() as string,
+            name: faker.person.fullName(),
+            password: faker.internet.password(),
+            email: faker.internet.email(),
           })
           .returning();
         return user[0];
