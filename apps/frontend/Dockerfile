@@ -9,7 +9,8 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/frontend/package.json ./apps/frontend/
-COPY packages/shared-types/package.json ./packages/shared-types/
+COPY packages/shared/drizzle ./packages/shared/drizzle
+COPY packages/shared/types ./packages/shared/types
 
 RUN pnpm install
 
@@ -18,4 +19,5 @@ COPY . .
 WORKDIR /app/apps/frontend
 EXPOSE 3000
 CMD ["pnpm", "--filter", "frontend", "dev"]
+
     

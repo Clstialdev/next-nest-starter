@@ -1,16 +1,17 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "lib": ["dom", "esnext"],
-    "strict": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
+    "module": "commonjs",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@shared/types": ["packages/shared-types/src"]
+      "@shared/types": ["packages/shared/types/src"],
+      "@shared/drizzle": ["packages/shared/drizzle"]
     }
-  }
+  },
+  "include": ["apps/**/*", "packages/**/*"]
 }

@@ -46,7 +46,6 @@ services:
       - backend
     volumes:
       - ./apps/frontend:/app/apps/frontend
-      - ./packages/shared-types:/app/packages/shared-types
       - /app/node_modules
 
   backend:
@@ -61,7 +60,7 @@ services:
       - "traefik.http.routers.backend.tls=true"
       - "traefik.http.services.backend.loadbalancer.server.port=4000"
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/mydb
     ports:
       - "4000:4000"
@@ -71,8 +70,6 @@ services:
       - postgres
     volumes:
       - ./apps/backend:/app/apps/backend
-      - ./packages/shared-types:/app/packages/shared-types
-      - /app/node_modules
 
   postgres:
     image: postgres:16-alpine

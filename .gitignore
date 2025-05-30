@@ -1,5 +1,9 @@
 # compiled output
 /dist
+/packages/shared/drizzle/dist
+/packages/shared/types/dist
+/packages/shared/drizzle/node_modules
+/packages/shared/types/node_modules
 /node_modules
 /build
 

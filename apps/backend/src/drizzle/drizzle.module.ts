@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Pool } from 'pg';
-import { drizzle, NodePgDatabase } from 'drizzle-orm/node-postgres';
-import * as schema from './schema';
+import { createDrizzle, DrizzleDB } from '@shared/drizzle';
 
 export const DRIZZLE = Symbol('drizzle-connection');
 @Module({
@@ -11,12 +9,15 @@ export const DRIZZLE = Symbol('drizzle-connection');
       provide: DRIZZLE,
       inject: [ConfigService],
       // eslint-disable-next-line @typescript-eslint/require-await
-      useFactory: async (configService: ConfigService) => {
-        const databaseURL = configService.get<string>('DATABASE_URL');
-        const pool = new Pool({
-          connectionString: databaseURL,
-        });
-        return drizzle(pool, { schema }) as NodePgDatabase<typeof schema>;
+      useFactory: async (configService: ConfigService): Promise<DrizzleDB> => {
+        const connectionString = configService.get<string>('DATABASE_URL');
+        if (!connectionString) {
+          throw new Error('DATABASE_URL is not defined');
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+        const db = createDrizzle(connectionString);
+        return db;
       },
     },
   ],
