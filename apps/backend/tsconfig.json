@@ -2,19 +2,33 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "module": "commonjs",
-    "outDir": "./dist",
-    "sourceMap": true,
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "noEmit": false,
+    "outDir": "./dist",
+    "baseUrl": "./",
     "incremental": true,
-    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "resolveJsonModule": true,
+    "composite": true,
+    "paths": {
+      "@shared/types": ["../../packages/shared/types/dist/index"]
+    }
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../../packages/shared/types"
+    }
+  ]
 }

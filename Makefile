@@ -1,14 +1,6 @@
 OS := $(shell uname 2>/dev/null || echo Windows_NT)
 HR=━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-# Check for verbose flag
-VERBOSE := $(findstring v,$(filter -v --verbose,$(MAKECMDGOALS)))
-ifdef VERBOSE
-    DOCKER_UP_FLAGS := --build
-else
-    DOCKER_UP_FLAGS := --build -d
-endif
-
 # Remove verbose flags from MAKECMDGOALS
 MAKECMDGOALS := $(filter-out -v --verbose,$(MAKECMDGOALS))
 
@@ -71,7 +63,7 @@ ifeq ($(OS),Windows_NT)
 endif
 	@echo $(HR)
 	@echo 🚀 Starting Docker containers...
-	docker-compose up $(DOCKER_UP_FLAGS)
+	docker-compose up --build
 
 down:
 ifeq ($(OS),Windows_NT)
@@ -118,7 +110,6 @@ endif
 	@echo $(HR)
 	@echo make setup   - First-time setup
 	@echo make up      - Start containers in detached mode
-	@echo make up -v   - Start containers in verbose mode
 	@echo make down    - Stop containers
 	@echo make restart - Restart containers
 	@echo make dev     - Start development environment

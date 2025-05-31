@@ -1,5 +1,7 @@
 # compiled output
 /dist
+/packages/shared/types/dist
+/packages/shared/types/node_modules
 /node_modules
 /build
 
