@@ -118,7 +118,7 @@ endif
 	@echo $(HR)
 	@echo make setup   - First-time setup
 	@echo make up      - Start containers in detached mode
-	@echo make up -v   - Start containers in verbose mode (attached)
+	@echo make up -v   - Start containers in verbose mode
 	@echo make down    - Stop containers
 	@echo make restart - Restart containers
 	@echo make dev     - Start development environment
