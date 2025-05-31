@@ -76,11 +76,8 @@ This will:
 ### Starting the Development Environment
 
 ```bash
-# Start in detached mode (background)
-make up
-
 # Start in verbose mode (see logs)
-make up -v
+make up
 ```
 
 ### Available Commands
