@@ -2,6 +2,10 @@
 
 A modern full-stack monorepo project using Next.js for the frontend and Nest.js for the backend, with Docker and Traefik for containerization and reverse proxy.
 
+## Important Notice
+
+**🚨 IMPORTANT: There is a `with-db` branch that includes DrizzleORM with PostgreSQL, providing end-to-end type safety from back to front! 🚨**
+
 ## 🚀 Features
 
 - **Frontend**: Next.js application with TypeScript
