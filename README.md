@@ -55,7 +55,7 @@ sudo apt install mkcert
 
 ```bash
 git clone https://github.com/Clstialdev/next-nest-starter.git
-cd next-nest-monorepo
+cd next-nest-starter
 ```
 
 2. Run the setup command:
@@ -76,11 +76,8 @@ This will:
 ### Starting the Development Environment
 
 ```bash
-# Start in detached mode (background)
-make up
-
 # Start in verbose mode (see logs)
-make up -v
+make up
 ```
 
 ### Available Commands
