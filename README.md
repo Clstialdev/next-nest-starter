@@ -10,6 +10,7 @@ A modern full-stack monorepo project using Next.js for the frontend and Nest.js 
 - **Docker**: Containerized development and production environments
 - **Traefik**: Reverse proxy with automatic SSL certificate management
 - **Local Development**: Automatic local domain setup with SSL certificates
+- **Database**: PostgreSQL database with DrizzleORM for schema management and migrations
 
 ## 📋 Prerequisites
 
@@ -97,6 +98,8 @@ Common commands:
 - `make dev` - Start development environment
 - `make build` - Build all packages and applications
 - `make clean` - Clean up node_modules and build artifacts
+- `make db:migrate` - Apply database migrations using DrizzleORM
+- `make db:seed` - Seed the database with initial data
 
 ## 🌐 Local Domains
 
@@ -129,6 +132,18 @@ Create `.env` files in the respective directories:
 ```bash
 apps/frontend/.env
 apps/backend/.env
+```
+
+### Database Configuration
+
+- **PostgreSQL**: The project uses PostgreSQL as the database. Ensure you have PostgreSQL installed and running.
+- **DrizzleORM**: DrizzleORM is used for schema management and migrations. The configuration is located in `packages/shared/drizzle/drizzle.config.ts`.
+
+#### Example `.env` for Database Configuration
+
+```bash
+# apps/backend/.env
+DATABASE_URL=postgresql://user:password@localhost:5432/yourdb
 ```
 
 ### Docker Configuration

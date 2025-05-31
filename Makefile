@@ -124,6 +124,10 @@ endif
 	@echo make nest    - Run Nest commands in the backend folder
 	@echo make frontend  - Run command in the frontend folder
 	@echo make backend - Run command in the backend folder
+	@echo make db-migrate - Apply database migrations using DrizzleORM
+	@echo make db-seed   - Seed the database with initial data
+	@echo make db-studio - Open Drizzle Studio
+	@echo make db-generate - Generate the SQL migration based on the current schema 
 	@echo $(HR)
 
 nest:
@@ -141,6 +145,26 @@ frontend:
 	@echo "🛠️  Running command in the frontend folder..."
 	@cd apps/frontend && $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
 
+db-migrate:
+	@echo $(HR)
+	@echo 🔄 Running database migrations...
+	@cd packages/shared/drizzle && pnpm drizzle-kit push
+
+db-seed:
+	@echo $(HR)
+	@echo 🔄 Seeding the database...
+	@cd packages/shared/drizzle && pnpx ts-node ./seed.ts
+
+db-studio:
+	@echo $(HR)
+	@echo 🛠️  Opening Drizzle Studio...
+	@cd packages/shared/drizzle && pnpm drizzle-kit studio
+
+db-generate:
+	@echo $(HR)
+	@echo 🛠️  Generating the SQL migration based on the current schema...
+	@cd packages/shared/drizzle && pnpm drizzle-kit generate
+	@:
+
 .PHONY: setup init hosts-config generate-certs up upd down restart dev build clean help nest frontend backend
 .DEFAULT:
-	@:
