@@ -54,8 +54,8 @@ sudo apt install mkcert
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Clstialdev/next-nest-starter.git
-cd next-nest-monorepo
+git clone https://github.com/Clstialdev/next-nest-drizzle-starter.git
+cd next-nest-drizzle-starter
 ```
 
 2. Run the setup command:
@@ -76,7 +76,7 @@ This will:
 ### Starting the Development Environment
 
 ```bash
-# Start in verbose mode (see logs)
+# Start environment
 make up
 ```
 
@@ -129,6 +129,7 @@ Create `.env` files in the respective directories:
 ```bash
 apps/frontend/.env
 apps/backend/.env
+packages/drizzle/.env
 ```
 
 ### Database Configuration
@@ -140,6 +141,11 @@ apps/backend/.env
 
 ```bash
 # apps/backend/.env
+DATABASE_URL=postgresql://user:password@localhost:5432/yourdb
+```
+
+```bash
+# packages/drizzle/.env
 DATABASE_URL=postgresql://user:password@localhost:5432/yourdb
 ```
 
