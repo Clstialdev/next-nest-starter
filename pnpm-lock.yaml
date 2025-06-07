@@ -186,7 +186,11 @@ importers:
         specifier: ^0.31.1
         version: 0.31.1
 
-  packages/shared/types: {}
+  packages/shared/types:
+    dependencies:
+      '@shared/drizzle':
+        specifier: workspace:^
+        version: link:../drizzle
 
 packages:
 

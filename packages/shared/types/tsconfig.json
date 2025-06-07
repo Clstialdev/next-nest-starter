@@ -3,7 +3,15 @@
   "compilerOptions": {
     "composite": true,
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "paths": {
+      "@shared/drizzle": ["../drizzle/dist/index"]
+    }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../drizzle"
+    }
+  ]
 }

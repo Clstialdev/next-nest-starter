@@ -7,6 +7,9 @@
     "build": "tsc",
     "dev": "tsc --watch"
   },
+  "dependencies": {
+    "@shared/drizzle": "workspace:^"
+  },
   "exports": {
     ".": "./src/index.ts",
     "./*": "./src/*.ts"
