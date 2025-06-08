@@ -1,6 +1,8 @@
 # compiled output
 /dist
+/packages/shared/drizzle/dist
 /packages/shared/types/dist
+/packages/shared/drizzle/node_modules
 /packages/shared/types/node_modules
 /node_modules
 /build
@@ -58,5 +60,5 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # TLS certificates
-letsencrypt/*.key
-letsencrypt/*.pem
+certs/*.key
+certs/*.pem
