@@ -60,5 +60,5 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # TLS certificates
-letsencrypt/*.key
-letsencrypt/*.pem
+certs/*.key
+certs/*.pem

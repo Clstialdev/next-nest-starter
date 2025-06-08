@@ -1,4 +1,4 @@
 tls:
   certificates:
-    - certFile: /letsencrypt/local.crt
-      keyFile: /letsencrypt/local.key
+    - certFile: /certs/local-domains.pem
+      keyFile: /certs/local-domains-key.pem

@@ -1,27 +1,30 @@
 # Check if mkcert is installed
-try {
-    $mkcertVersion = mkcert -version
-    Write-Host "✅ mkcert is installed: $mkcertVersion"
-} catch {
-    Write-Host "❌ mkcert is not installed. Please install it first:"
-    Write-Host "   Using Chocolatey: choco install mkcert"
-    Write-Host "   Or download from: https://github.com/FiloSottile/mkcert/releases"
+if (-not (Get-Command mkcert -ErrorAction SilentlyContinue)) {
+    Write-Host "❌ mkcert is not installed." -ForegroundColor Red
+    Write-Host "Please install it using 'choco install mkcert' or from https://github.com/FiloSottile/mkcert"
     exit 1
 }
 
-# Create certificates directory if it doesn't exist
-if (-not (Test-Path "letsencrypt")) {
-    New-Item -ItemType Directory -Path "letsencrypt" | Out-Null
-    Write-Host "📁 Created letsencrypt directory"
+$certDir = "certs"
+if (-not (Test-Path $certDir)) {
+    New-Item -ItemType Directory -Path $certDir | Out-Null
 }
 
-# Install local CA
-Write-Host "🔐 Installing local CA..."
+# Use a more descriptive name for the multi-domain certificate
+$certFile = Join-Path $certDir "local-domains.pem"
+$keyFile = Join-Path $certDir "local-domains-key.pem"
+
+# Check if certificates already exist
+if ((Test-Path $certFile) -and (Test-Path $keyFile)) {
+    Write-Host "✅ Certificates already exist. Skipping generation." -ForegroundColor Green
+    exit 0
+}
+
+Write-Host "🚀 Installing local CA (a security prompt may appear)..." -ForegroundColor Cyan
 mkcert -install
 
-# Generate certificates for our domains
-Write-Host "🔑 Generating certificates for *.localhost..."
-mkcert -cert-file letsencrypt/local.crt -key-file letsencrypt/local.key "*.localhost"
+Write-Host "🔐 Generating certificate for specific domains..." -ForegroundColor Cyan
+# Generate a single certificate for all required domains
+mkcert -cert-file $certFile -key-file $keyFile frontend.localhost backend.localhost traefik.localhost
 
-Write-Host "✅ Certificates generated successfully!"
-Write-Host "📁 Certificates are stored in the letsencrypt directory" 
+Write-Host "✅ Certificates generated successfully in $certDir/" -ForegroundColor Green

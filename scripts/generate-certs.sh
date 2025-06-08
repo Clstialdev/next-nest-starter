@@ -1,22 +1,31 @@
 #!/bin/bash
+set -e
 
 # Check if mkcert is installed
-if ! command -v mkcert &> /dev/null; then
-    echo "mkcert is not installed. Please install it first:"
-    echo "On Ubuntu/Debian: sudo apt install mkcert"
-    echo "On macOS: brew install mkcert"
-    echo "On Windows: choco install mkcert"
-    exit 1
+if ! command -v mkcert &>/dev/null; then
+  echo "❌ mkcert is not installed."
+  echo "Please install it from https://github.com/FiloSottile/mkcert"
+  exit 1
 fi
 
-# Create certificates directory if it doesn't exist
-mkdir -p letsencrypt
+CERT_DIR="certs"
+mkdir -p "$CERT_DIR"
 
-# Install local CA
+# Use a more descriptive name for the multi-domain certificate
+CERT_FILE="$CERT_DIR/local-domains.pem"
+KEY_FILE="$CERT_DIR/local-domains-key.pem"
+
+# Check if certificates already exist
+if [ -f "$CERT_FILE" ] && [ -f "$KEY_FILE" ]; then
+  echo "✅ Certificates already exist. Skipping generation."
+  exit 0
+fi
+
+echo "🚀 Installing local CA (you might be prompted for your password)..."
 mkcert -install
 
-# Generate certificates for our domains
-mkcert -cert-file letsencrypt/local.crt -key-file letsencrypt/local.key "*.localhost"
+echo "🔐 Generating certificate for specific domains..."
+# Generate a single certificate for all required domains
+mkcert -cert-file "$CERT_FILE" -key-file "$KEY_FILE" frontend.localhost backend.localhost traefik.localhost
 
-echo "Certificates generated successfully!"
-echo "Certificates are stored in the letsencrypt directory" 
+echo "✅ Certificates generated successfully in $CERT_DIR/"
