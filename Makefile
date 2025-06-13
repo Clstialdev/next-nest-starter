@@ -3,6 +3,9 @@ HR=━━━━━━━━━━━━━━━━━━━━━━━━━�
 
 setup: init hosts-config generate-certs
 	@echo $(HR)
+	@echo 🧱 Building TypeScript projects: shared/types and shared/drizzle...
+	pnpm tsc -b packages/shared/types packages/shared/drizzle
+	@echo ✅ TypeScript build completed!
 	@echo 🎉 Setup complete! Run 'make help' for commands.
 	@echo $(HR)
 
@@ -32,11 +35,11 @@ else
 	-@if [ $$(id -u) -ne 0 ]; then \
 		echo "⚠️ Warning: Not running as root - hosts file will not be updated"; \
 		echo "💡 To enable local domain access, manually add these entries to your hosts file:"; \
-		echo "   127.0.0.1 frontend.localhost"; \
-		echo "   127.0.0.1 backend.localhost"; \
-		echo "   127.0.0.1 traefik.localhost"; \
+		echo "   127.0.0.1 zennstack.localhost"; \
+		echo "   127.0.0.1 api.zennstack.localhost"; \
+		echo "   127.0.0.1 traefik.zennstack.localhost"; \
 	else \
-		for domain in frontend.localhost backend.localhost traefik.localhost; do \
+		for domain in zennstack.localhost api.zennstack.localhost traefik.zennstack.localhost; do \
 		    if ! grep -q "127.0.0.1 $$domain" /etc/hosts; then \
 		        echo "127.0.0.1 $$domain" >> /etc/hosts; \
 		    fi; \

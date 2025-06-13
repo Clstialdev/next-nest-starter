@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     siteName: "ZENN Stack",
     images: [
       {
-        url: `${siteUrl}/images/ZENN_1200_630.png`,
+        url: `${siteUrl}/thumbnails/ZENN_1200_630.png`,
         width: 1200,
         height: 630,
         alt: "ZENN Stack Logo and Tech Stack",

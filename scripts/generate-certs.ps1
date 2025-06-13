@@ -24,7 +24,8 @@ Write-Host "🚀 Installing local CA (a security prompt may appear)..." -Foregro
 mkcert -install
 
 Write-Host "🔐 Generating certificate for specific domains..." -ForegroundColor Cyan
+# --- UPDATED ---
 # Generate a single certificate for all required domains
-mkcert -cert-file $certFile -key-file $keyFile frontend.localhost backend.localhost traefik.localhost
+mkcert -cert-file $certFile -key-file $keyFile zennstack.localhost api.zennstack.localhost traefik.zennstack.localhost
 
 Write-Host "✅ Certificates generated successfully in $certDir/" -ForegroundColor Green

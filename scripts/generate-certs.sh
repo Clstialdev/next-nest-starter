@@ -25,7 +25,8 @@ echo "🚀 Installing local CA (you might be prompted for your password)..."
 mkcert -install
 
 echo "🔐 Generating certificate for specific domains..."
+# --- UPDATED ---
 # Generate a single certificate for all required domains
-mkcert -cert-file "$CERT_FILE" -key-file "$KEY_FILE" frontend.localhost backend.localhost traefik.localhost
+mkcert -cert-file "$CERT_FILE" -key-file "$KEY_FILE" zennstack.localhost api.zennstack.localhost traefik.zennstack.localhost
 
 echo "✅ Certificates generated successfully in $CERT_DIR/"

@@ -6,6 +6,9 @@
 /packages/shared/types/node_modules
 /node_modules
 /build
+**/tsconfig.tsbuildinfo
+/packages/shared/types/tsconfig.tsbuildinfo
+/packages/shared/drizzle/tsconfig.tsbuildinfo
 
 # Logs
 logs
