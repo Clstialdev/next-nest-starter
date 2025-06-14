@@ -5,6 +5,14 @@
 dist
 .next
 build
+apps/**/dist
+packages/**/dist
+apps/**/.next
+
+# Node dependencies - these will be installed inside the container
+node_modules
+apps/**/node_modules
+packages/**/node_modules
 
 # Version control
 .git
@@ -13,6 +21,7 @@ build
 # Environment files
 .env
 .env.*
+!/.env.example
 
 # IDE files
 .idea
@@ -29,4 +38,11 @@ pnpm-debug.log*
 
 # System files
 .DS_Store
-Thumbs.db 
+Thumbs.db
+
+# Docker and temp files
+Dockerfile*
+docker-compose.yml
+.dockerignore
+npm-debug.log*
+pnpm-debug.log*

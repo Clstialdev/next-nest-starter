@@ -43,7 +43,7 @@ services:
     depends_on:
       - backend
     volumes:
-      - ./apps/frontend:/app/apps/frontend
+      - .:/app
       - /app/node_modules
 
   backend:
@@ -67,7 +67,19 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./apps/backend:/app/apps/backend
+      - .:/app
+      - /app/node_modules
+
+  shared-watcher:
+    build:
+      context: .
+      dockerfile: Dockerfile.watcher
+    command: pnpm build:all:watch
+    networks:
+      - app-network
+    volumes:
+      - .:/app
+      - /app/node_modules
 
   postgres:
     image: postgres:16-alpine

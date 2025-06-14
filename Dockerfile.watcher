@@ -1,0 +1,17 @@
+FROM node:20-alpine
+
+RUN npm install -g pnpm
+
+WORKDIR /app
+
+# Copy manifests and install all monorepo dependencies
+COPY package.json pnpm-lock.yaml ./
+COPY pnpm-workspace.yaml ./
+RUN pnpm install --frozen-lockfile
+
+# Copy all source code
+COPY . .
+
+# Explicitly install dependencies for the shared packages
+RUN cd packages/shared/types && pnpm install
+RUN cd packages/shared/drizzle && pnpm install

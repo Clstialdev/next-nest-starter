@@ -5,14 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:all": "pnpm exec tsc -b packages/shared/types packages/shared/drizzle apps/backend"
+    "build:all:watch": "pnpm exec tsc -b packages/shared/types packages/shared/drizzle apps/backend --watch 2>&1",
+    "dev:shared": "pnpm --filter './packages/shared/**' --parallel run build:watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.5.2",
   "devDependencies": {
+    "@types/node": "^24.0.1",
     "concurrently": "^9.1.2",
+    "tsc-watch": "^7.1.1",
     "typescript": "^5.8.3"
   }
 }

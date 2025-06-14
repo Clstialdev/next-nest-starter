@@ -21,11 +21,7 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "resolveJsonModule": true,
-    "composite": true,
-    "paths": {
-      "@shared/drizzle": ["../../packages/shared/drizzle/dist/index"],
-      "@shared/types": ["../../packages/shared/types/dist/index"]
-    }
+    "composite": true
   },
   "include": ["src/**/*"],
   "references": [
